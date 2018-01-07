@@ -8,11 +8,13 @@ class User
 
   protected $id;
   protected $name;
+  protected $email;
 
   public function exchangeArray(array $data)
   {
     $this->id=$data['id'];
     $this->name=$data['name'];
+    $this->email=$data['email'];
   }
 
     public function getId()
@@ -26,5 +28,9 @@ class User
       return $this->name;
     }
 
+    public function getEmail()
+    {
+        return $this->email;
+    }
 
 }

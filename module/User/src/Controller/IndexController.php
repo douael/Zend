@@ -34,8 +34,34 @@ class IndexController extends AbstractActionController
     public function addAction(){
         $form = new \User\Form\UserForm();
 
-        return new ViewModel([
-            'form' => $form
+        $form->get('submit')->setAttribute('class','btn btn-success');
+
+        $request = $this->getRequest();
+
+        if(! $request->isPost()){
+            return new ViewModel([
+                'form' => $form
+            ]);
+        }
+
+        $user = new \User\Model\User();
+
+        $form->setData($request->getPost());
+
+        if(! $form->isValid()){
+            exit('not valid');
+        }
+
+        $user->exchangeArray($form->getData());
+
+        $this->table->saveUser($user);
+
+        return $this->redirect()->toRoute('user',[
+            'controller'=>'index',
+            'action'=>'add'
         ]);
+
+
+
     }
 }
